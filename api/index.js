@@ -1,15 +1,20 @@
 const express=require('express')
 const app=express();
 const port=3000;
-const mongoose=require('mongoose')
+const mongoose=require('mongoose');
+const  userRoute = require('./routes/user.routes');
+const signup = require('./routes/auth.route');
 require('dotenv').config()
+
+
 mongoose.connect(process.env.MONGO_URI).then(()=>{
     console.log('connected to database')
 }).catch((err)=>{
     console.log(err)
 })
-
-
+app.use(express.json())
+app.use('/api/test',userRoute)
+app.use('/api/signup',signup)
 
 
 
