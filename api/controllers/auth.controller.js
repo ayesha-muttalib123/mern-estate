@@ -1,5 +1,7 @@
 const User = require("../models/user.model");
 const bcrypt = require('bcrypt');
+const jwt=require('jsonwebtoken')
+require('dotenv').config()
 
 exports.Signup = async (req, res) => {
     try {
@@ -38,3 +40,30 @@ exports.Signup = async (req, res) => {
         res.status(500).json({ error: 'Server error', details: err.message });
     }
 };
+
+exports.SignIn=async(req,res)=>{
+    const {email,password}=req.body;
+    try {
+     const validUser=await User.findOne({email});
+     if(!validUser){
+        return res.status(400).json({error:'Invalid email or password'});
+        
+    } 
+    const validPassword=bcrypt.compareSync(password,validUser.password)
+if(!validPassword){
+   return res.status(400).json({error:'Invalid Credentials'}) 
+}
+    const token=jwt.sign({id:validUser._id},process.env.SECRET_KEY)
+    // password npt showing 
+    const {password:pass,...rest}=validUser._doc;
+    // cookie setting 
+    res.cookie('jwt',token,{httpOnly:true,maxAge:3600000}).status(200).json(rest)
+
+    // you can do like this
+    // res.cookie('jwt',token,{httpOnly:true})
+
+    }
+    catch (err) {
+        
+    }
+}
