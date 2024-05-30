@@ -27,6 +27,9 @@ function Header() {
    <Link to='/SignIn'>
    <li className='inline text-slate-700 hover:underline'>Sign In</li>
    </Link>
+   <Link to='/SignUp'>
+   <li className='inline text-slate-700 hover:underline'>Sign Up</li>
+   </Link>
 </ul>
 </div>
 </header>

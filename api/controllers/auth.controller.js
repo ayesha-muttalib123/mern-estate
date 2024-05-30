@@ -10,23 +10,31 @@ exports.Signup = async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ error: 'User already exists' });
         }
+        if(!password){
+            return res.status(400).json({ error: 'password required' });
+        }
+        if(!password>=6){
+            return res.status(400).json({ error: 'min length of pasword should be 6' });
+        }
+
 
         // Hash the password
         const hashPassword = bcrypt.hashSync(password, 10);
 
         // Create a new user
-        const newUser = new User({
+        const newUser = await User.create({
             username,
             email,
             password: hashPassword
         });
 
         // Save the new user
-        await newUser.save();
+        
 
         res.status(200).json({ message: 'User created successfully' });
 
     } catch (err) {
+        console.error(err); // Log the error
         res.status(500).json({ error: 'Server error', details: err.message });
     }
 };
