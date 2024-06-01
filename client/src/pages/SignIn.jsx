@@ -44,13 +44,18 @@ function SignIn() {
       }
 
       const data = await res.json();
+    //   localStorage.setItem('userId', data._id); 
+      console.log(data)
+    
       if(data.success===false){
+       
        dispatch(signInFailure(data.message))
       return;   }
    
       // setloading(false)
       // seterror(null)
       dispatch(signInSuccess(data))
+      
       navigate('/');
       console.log(data);
     }
