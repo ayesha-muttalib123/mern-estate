@@ -1,6 +1,9 @@
-import { set } from "mongoose";
+
 import React, { useState } from "react";
 import { Link ,useNavigate} from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signInFailure, signInStart, signInSuccess } from "../redux/userSlice";
+
 
 function SignIn() {
   const [formdata, setFormdata] = useState({
@@ -10,6 +13,9 @@ function SignIn() {
   });
   const [loading ,setloading]=useState()
   const [error,seterror]=useState()
+//   const error = useSelector(state => state.user.error);
+//   const loading = useSelector(state => state.user.loading);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,7 +28,8 @@ function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setloading(true)
+      dispatch(signInStart)
+      // setloading(true)
       const res = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: {
@@ -32,22 +39,26 @@ function SignIn() {
       });
 
       if (!res.ok) {
-        throw new Error('Network response was not ok');
+        dispatch(signInFailure(data.error || 'Network response was not ok'));
       
       }
 
       const data = await res.json();
-      // if(!data){
-      //   setloading(true)
-      //   throw new Error('No data')
-      // }
-      setloading(false)
-      seterror(null)
-      navigate('/signIn');
+      if(data.success===false){
+       dispatch(signInFailure(data.message))
+      return;   }
+   
+      // setloading(false)
+      // seterror(null)
+      dispatch(signInSuccess(data))
+      navigate('/');
       console.log(data);
-    } catch (error) {
-      seterror(error)
-      setloading(true)
+    }
+    
+    catch (error) {
+      dispatch(signInFailure(error.message))
+      // seterror(error)
+      // setloading(true)
       console.error('There was an error!', error);
     }
   };
@@ -83,12 +94,34 @@ function SignIn() {
       </form>
       <div className="flex gap-2 mt-5">
         <p>
-          Dont have an account? <Link to="/signIn">Sign Up</Link>
+          Dont have an account? <Link to="/signUp">Sign Up</Link>
         </p>
       </div>
       <p className="text-red-700">{error?error.message:''}</p>
     </div>
-  );
+  );  
 }
 
 export default SignIn;
+
+
+
+// import React from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { increment, decrement } from '../redux/userSlice';
+
+// function Counter() {
+//     const dispatch = useDispatch();
+//     const count = useSelector((state) => state.counter.value);
+
+//     return (
+//         <div>
+//             <h1>Counter: {count}</h1>
+//             <button onClick={() => dispatch(increment())}>Increment</button>
+//             <button onClick={() => dispatch(decrement())}>Decrement</button>
+//         </div>
+//     );
+// }
+
+// export default Counter;
+

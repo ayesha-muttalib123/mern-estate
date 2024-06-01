@@ -1,6 +1,8 @@
-import { set } from "mongoose";
+
 import React, { useState } from "react";
 import { Link ,useNavigate} from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signInFailure, signInStart, signInSuccess } from "../redux/userSlice";
 
 function SignUp() {
   const [formdata, setFormdata] = useState({
@@ -10,6 +12,7 @@ function SignUp() {
   });
   const [loading ,setloading]=useState()
   const [error,seterror]=useState()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -32,23 +35,27 @@ function SignUp() {
       });
 
       if (!res.ok) {
-        throw new Error('Network response was not ok');
+        dispatch(signInFailure(data.error || 'Network response was not ok'));
+
       
       }
 
       const data = await res.json();
-      // if(!data){
-      //   setloading(true)
-      //   throw new Error('No data')
-      // }
-      setloading(false)
-      seterror(null)
+      if(data.success===false){
+       dispatch(signInFailure(data.message))
+      return;   
+    }
+
+      dispatch(signInSuccess(data))
       navigate('/signIn');
       console.log(data);
     } catch (error) {
-      seterror(error)
-      setloading(true)
+      dispatch(signInFailure(error.message))
+  
       console.error('There was an error!', error);
+      // seterror(error)
+      // setloading(true)
+      // console.error('There was an error!', error);
     }
   };
 
@@ -92,8 +99,8 @@ function SignUp() {
         <p>
           Have an account? <Link to="/signIn">Sign In</Link>
         </p>
-      </div>
-      <p className="text-red-700">{error?error.message:''}</p>
+        </div>
+      {error && <p className="text-red-700">{error.message}</p>}
     </div>
   );
 }
