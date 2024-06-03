@@ -124,3 +124,63 @@ exports.SignIn = async (req, res) => {
         res.status(500).json({ error: 'Server error', details: err.message });
     }
 };
+
+
+
+exports.SignInWithGoogle = async (req, res) => {
+    try {
+        // Extract the email from the request body
+        const { email } = req.body;
+
+        // Find a user in the database with the given email
+        const user = await User.findOne({ email });
+
+        if (user) {
+            // If user exists, create a JWT token using the user's ID and a secret key from environment variables
+            const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
+            
+            // Destructure the user object to exclude the password from the response
+            const { password: pass, ...rest } = user._doc;
+            
+            // Set a cookie named 'access_cookie' with the token, marked as HttpOnly for security
+            // Send the response with status 200 and the user data (excluding the password)
+            res.cookie('access_cookie', token, { httpOnly: true }).status(200).json(rest);
+        } else {
+            // If user does not exist, generate a random password
+            // Math.random() generates a random floating-point number between 0 (inclusive) and 1 (exclusive)
+            // .toString(36) converts the number to a base-36 string (using 0-9 and a-z)
+            // .slice(-8) extracts the last 8 characters of the string
+            // Combining two such slices to create a 16-character random password
+            const generatePassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+            
+            // Hash the generated password using bcrypt with a salt rounds value of 10
+            const hashPassword = bcrypt.hashSync(generatePassword, 10);
+            
+            // Create a new user in the database with a unique username, provided email, hashed password, and avatar
+            const user = await User.create({
+                // Create a unique username by concatenating the provided name (without spaces) and a random string
+                // .split(" ") splits the name into an array of words
+                // .join("") joins the array elements into a single string without spaces
+                // .toLowerCase() converts the string to lowercase
+                // Math.random().toString(36).slice(-4) adds a random 4-character string to ensure uniqueness
+                username: req.body.name.split(" ").join("").toLowerCase() + Math.random().toString(36).slice(-4),
+                email: req.body.email,
+                password: hashPassword,
+                avatar: req.body.photo
+            });
+            
+            // Create a JWT token for the new user using their ID and the secret key
+            const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
+            
+            // Destructure the user object to exclude the password from the response
+            const { password: pass, ...rest } = user._doc;
+            
+            // Set a cookie named 'access_cookie' with the token, marked as HttpOnly for security
+            // Send the response with status 200 and the new user data (excluding the password)
+            res.cookie('access_cookie', token, { httpOnly: true }).status(200).json(rest);
+        }
+    } catch (error) {
+        // If an error occurs, send a response with status 500 and an error message
+        res.status(500).json({ error: 'Server error', details: error.message });
+    }
+};
