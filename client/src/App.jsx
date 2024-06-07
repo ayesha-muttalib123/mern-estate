@@ -6,22 +6,26 @@ import About from './pages/About'
 import Profile from './pages/Profile'
 import Header from './componenets/Header'
 import SignUp from './pages/SignUp'
+import PrivateRoute from './componenets/privateRoute'
+
+
+
+
 
 export default function App() {
   return (
-    
     <>
-    <Header/>
-    <Routes>
-      <Route  path='/' element={<Home/>}/>
-      <Route  path='/SignIn' element={<SignIn/>}/>
-      <Route  path='/SignUp' element={<SignUp/>}/>
-      <Route  path='/About' element={<About/>}/>
-      <Route  path='/Profile' element={<Profile/>}/>
-      
-
-    </Routes>
-    
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/about" element={<About />} />
+        
+    <Route element={<PrivateRoute/>}>
+      <Route path="/profile" element={<Profile />} />
+    </Route>
+      </Routes>
     </>
-  )
+  );
 }
