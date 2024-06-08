@@ -28,7 +28,10 @@ function Oauth() {
           photo: result.user.photoURL,
         }),
       });
+    
       const data = await res.json();
+      console.log("Server response:", data);
+
       dispatch(signInSuccess(data));
       navigate("/")
     } catch (error) {

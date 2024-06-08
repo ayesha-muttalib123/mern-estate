@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function Header() {
-  const currentUser = useSelector((state) => state.user);
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   console.log("Current User:", currentUser); // Add this line to check if currentUser is being populated correctly
 
