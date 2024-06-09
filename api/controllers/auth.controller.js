@@ -118,12 +118,13 @@ exports.SignIn = async (req, res) => {
         }
         const token = jwt.sign({ id:validUser._id }, process.env.SECRET_KEY);
         const { password: pass, ...rest } = validUser._doc;
-        res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 }).status(200).json(rest);
+        res.cookie('access_cookie', token, { httpOnly: true, maxAge: 3600000 }).status(200).json(rest);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Server error', details: err.message });
     }
 };
+
 
 
 
