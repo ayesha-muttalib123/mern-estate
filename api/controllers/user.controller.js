@@ -52,3 +52,31 @@ exports.updateUser = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+
+
+exports.deleteUser = async (req, res) => {
+    const { id } = req.params;
+  
+    // Ensure the user is deleting their own account
+    if (id !== req.user.id) {
+      return res.status(401).json({ message: "You can only delete your own account" });
+    }
+  
+    try {
+      // Delete the user by ID
+      const deletedUser = await User.findByIdAndDelete(id);
+  
+      // Check if the user was found and deleted
+      if (!deletedUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      // Respond with success message
+      res.status(200).json({ message: "User deleted successfully" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+  

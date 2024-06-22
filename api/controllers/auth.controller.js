@@ -185,3 +185,16 @@ exports.SignInWithGoogle = async (req, res) => {
         res.status(500).json({ error: 'Server error', details: error.message });
     }
 };
+exports.SignOut=async(req,res)=>{
+    try {
+        res.clearCookie('access_cookie')
+        res.status(200).json('User has been logged out')
+        
+        
+    } catch (error) {
+    
+        res.status(error)
+        
+    }
+    
+      }
