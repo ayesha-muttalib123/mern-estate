@@ -120,7 +120,6 @@ const HandleSignOut=async()=>{
   dispatch(SignOutInFailure(data.message));
   
  }
-
 }
   return (
     <div className="p-3 max-w-lg mx-auto">

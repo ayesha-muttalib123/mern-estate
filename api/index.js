@@ -5,7 +5,8 @@ const mongoose=require('mongoose');
 const  userRoute = require('./routes/user.routes');
 const signup = require('./routes/auth.route');
 const cors = require('cors');
-const cookieParser=require('cookie-parser')
+const cookieParser=require('cookie-parser');
+const listing = require('./routes/listingRoute');
 require('dotenv').config()
 
 
@@ -19,6 +20,8 @@ app.use(cookieParser());
 app.use(express.json())
 app.use('/api/user',userRoute)
 app.use('/api/auth',signup)
+app.use('/api/listing',listing)
+
 
 
 
