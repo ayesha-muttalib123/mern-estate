@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { SignOutInFailure, SignOutInSuccess, deleteInFailure, deleteInSuccess, deleteInstart, updateInFailure, updateInSuccess, updateInstart } from "../redux/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Profile() {
   const {currentUser,loading,error} = useSelector((state) => state.user);
@@ -172,6 +172,11 @@ const HandleSignOut=async()=>{
         <button disabled={loading} className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-90">
         {loading?'loading...':'Update Profile'}
         </button>
+     
+      <Link to={'/listing'} disabled={loading} className="bg-green-500 p-3 rounded-lg hover:opacity-95 text-center text-white ">
+          Create Listing
+
+        </Link>
       </form>
       <div className="flex justify-between text-red-700">
         <span onClick={handleDelete}>Delete Account</span>
