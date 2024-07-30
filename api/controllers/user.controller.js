@@ -1,5 +1,6 @@
 const bcrypt =require( 'bcrypt')
 const User =require( '../models/user.model');
+const Listing = require('../models/Listing.model');
 
 
 exports.createUser = async (req, res) => {
@@ -80,3 +81,20 @@ exports.deleteUser = async (req, res) => {
     }
   }
   
+exports.getListings=async (req,res)=>{
+    try {
+        if(req.user.id===req.params.id){
+            const listings=await Listing.find({userRefs:req.params.id})
+            return res.status(200).json(listings)
+
+        }
+        else{
+            return res.status(401).json({ message: "You can only view your own listings"})
+        }
+}
+catch(error){
+    console.log(error)
+
+
+}
+}

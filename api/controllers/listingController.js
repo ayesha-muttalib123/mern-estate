@@ -5,7 +5,7 @@ const Listing = require('../models/Listing.model');
 exports.createListing = async (req, res) => {
     try {
       console.log("Form Data received by backend:", req.body);
-    const { name, description, regularPrice, address, furnished, parking, type, bathroom, bedrooms, offer, discountedPrice, imageUrls, userRefs } = req.body.formData;
+    const { name, description, regularPrice, address, furnished, parking, type, bathroom, bedrooms, offer, discountedPrice, imageUrls, userRefs } = req.body;
     console.log("Form Data received by backend:", req.body);
     const newListing = new Listing({
       name,
