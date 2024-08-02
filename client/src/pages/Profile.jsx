@@ -14,6 +14,8 @@ function Profile() {
   const [uploadError, setUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [listingsError, setListingsError] = useState(null);
+  const [userListings,setuserListing]=useState([])
   const navigate=useNavigate()
 
 
@@ -26,6 +28,11 @@ function Profile() {
       handleUpload(file);
     }
   }, [file]);
+
+  useEffect(() => {
+    // Log the updated listings
+    console.log("Updated user listings:", userListings);
+  }, [userListings]);
 
   const handleUpload = async (file) => {
     const storage = getStorage();
@@ -121,6 +128,28 @@ const HandleSignOut=async()=>{
   
  }
 }
+const handleshowlistings = async () => {
+  try {
+    setListingsError(false);  // Reset any previous error state
+    const response = await fetch(`/api/user/listings/${currentUser._id}`);
+    const data = await response.json();
+
+    if (data.success === false) {
+      setListingsError(true);
+      return;
+    }
+
+    console.log("Fetched data:", data);
+    setuserListing(data);  
+
+
+    console.log("Updated user listings:", userListings);
+  } catch (error) {
+    console.error("Error fetching listings:", error);
+    setListingsError(true);
+  }
+};
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center">Profile</h1>
@@ -180,7 +209,7 @@ const HandleSignOut=async()=>{
       </form>
       <div className="flex justify-between text-red-700">
         <span onClick={handleDelete}>Delete Account</span>
-        <span className="text-green-400">Show Insights</span>
+       <button onClick={handleshowlistings} className="text-green-400">Show Insights</button>
         <span onClick={HandleSignOut}>Sign Out</span>
         
       </div>
@@ -188,7 +217,42 @@ const HandleSignOut=async()=>{
       {/* <div>  Show Insights</div> */}
       <p className="text-red-700">{error?error:''}</p>
       <p className="text-green-700">{updateSuccess?'update pofile Successfully!':''}</p>
+      <h1 className="text-center mt-7 font-semibold text-2xl gap-4">Your Listings</h1>
 
+      {userListings && userListings.length > 0 ? (
+        
+          userListings.map((listing) => (
+          <div >
+           
+             <div key={listing._id} className="mt-4  flex justify-between border rounded-lg p-3 items-center">
+              <Link to={`/listings/${listing._id}`}>
+                <img src={listing.imageUrls[0]} alt="listing cover" height={'100px'} className=" h-16 w-16"/>
+             
+              </Link>
+
+              <Link to={`/listings/${listing._id}`} className="text-slate-700 font-semibold">
+              <p>{listing.name}</p>
+              
+              </Link>
+              <div className="flex flex-col ">
+                <button className="text-red-700 font-semibold uppercase">
+                  Delete
+                </button>
+                
+                <button className="text-green-400 font-semibold uppercase">
+                  Edit
+                </button>
+                
+
+              </div>
+              
+            </div>
+
+          </div>
+          ))
+        ) : (
+          <p>No listings found</p>
+        )}
 
     </div>
   );

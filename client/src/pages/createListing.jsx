@@ -31,7 +31,7 @@ function CreateListing() {
     offer: false,
     discountedPrice: 0,
     imageUrls: [],  // This should match your schema
-    useRef:null
+    userRefs:CurrentUser?._id
 });
   console.log(formData);
 
@@ -113,7 +113,7 @@ function CreateListing() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ formData, userRefs: CurrentUser?._id }),
+        body: JSON.stringify({ formData }),
       });
 
       const data = await res.json();
