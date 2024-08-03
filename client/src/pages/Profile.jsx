@@ -149,6 +149,24 @@ const handleshowlistings = async () => {
     setListingsError(true);
   }
 };
+const HandleDeleteListing = async (listingId) => {
+  try {
+    const response = await fetch(`/api/listing/delete/${listingId}`, {
+      method: 'DELETE',
+   
+    });
+
+    const data = await response.json();
+if (data.success===false){
+  console.log(data.message)
+  return
+}
+    setuserListing((prevListings) => prevListings.filter(listing => listing._id !== listingId)); // Assuming setuserListing updates the list of user listings
+  } catch (error) {
+    console.error("Error deleting listing:", error);
+    setListingsError("Server error. Please try again later."); // Assuming you have a state for error messages
+  }
+};
 
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -235,7 +253,7 @@ const handleshowlistings = async () => {
               
               </Link>
               <div className="flex flex-col ">
-                <button className="text-red-700 font-semibold uppercase">
+                <button onClick={()=>HandleDeleteListing(listing._id)} className="text-red-700 font-semibold uppercase">
                   Delete
                 </button>
                 
