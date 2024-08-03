@@ -161,6 +161,10 @@ if (data.success===false){
   console.log(data.message)
   return
 }
+// The line setuserListing((prevListings) => prevListings.filter(listing => listing._id !== listingId));
+//  updates the state userListings by removing the listing with the specified listingId. It creates a 
+//  new array that includes all listings except 
+// the one with the matching _id, ensuring that the deleted listing is no longer present in the state.
     setuserListing((prevListings) => prevListings.filter(listing => listing._id !== listingId)); // Assuming setuserListing updates the list of user listings
   } catch (error) {
     console.error("Error deleting listing:", error);

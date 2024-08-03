@@ -77,3 +77,28 @@ if(!listings){
     
   }
 }
+
+exports.updateListing=async(req,res)=>{
+
+  const listings=await Listing.findById(req.params.id)
+
+  if(!listings){
+    return res.status(404).json({success:false,message:"Listing not found"})
+  }
+  if(req.user.id !== listings.userRefs.toString()){
+    return res.status(401).json({success:false,message:"you can update your own listings"})
+    }
+    try {
+      await Listing.findByIdAndUpdate(req.params.id,req.body,
+        {new:true}
+        //new true is for it will return new data updated ata
+      )
+      res.json({ success: true, message: "Listing updated successfully",listings },);
+      } catch (error) {
+        console.error("Error updating listing:", error);
+        res.status(400).json({success:false,message:"Failed to update listing",error:error.message
+          });
+          }
+
+
+}
