@@ -8,6 +8,7 @@ import Header from './componenets/Header'
 import SignUp from './pages/SignUp'
 import PrivateRoute from './componenets/privateRoute'
 import CreateListing from './pages/createListing'
+import UpdateListings from './pages/UpdateListings'
 
 
 
@@ -26,6 +27,7 @@ export default function App() {
     <Route element={<PrivateRoute/>}>
       <Route path="/profile" element={<Profile />} />
       <Route path="/listing" element={<CreateListing/>} />
+      <Route path='/update-listings/:listingId' element={<UpdateListings/>} />
 
     </Route>
       </Routes>

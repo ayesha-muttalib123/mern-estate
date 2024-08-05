@@ -262,7 +262,7 @@ if (data.success===false){
                 </button>
                 
                 <button className="text-green-400 font-semibold uppercase">
-                  Edit
+                  <Link to={`/update-listings/${listing._id}`}>Edit</Link>
                 </button>
                 
 

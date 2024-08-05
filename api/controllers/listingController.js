@@ -102,3 +102,14 @@ exports.updateListing=async(req,res)=>{
 
 
 }
+
+exports.getListings=async(req,res)=>{
+  try {
+    const listings=await Listing.findById(req.params.id)
+    res.json({ success: true, message: "Listings fetched successfully", listings });
+    } catch (error) {
+      console.error("Error fetching listings:", error);
+      res.status(400).json({success:false,message:"Failed to fetch listings",error:error.message
+        });
+        }
+}
