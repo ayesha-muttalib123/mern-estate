@@ -4,6 +4,12 @@ import "swiper/css/bundle";
 import { Navigation } from "swiper/modules";
 import SwiperCore from "swiper";
 import { useParams } from "react-router-dom";
+import { FaLocationDot } from "react-icons/fa6";
+import { FaBed } from "react-icons/fa";
+import { FaBath } from "react-icons/fa6";
+import { FaSquareParking } from "react-icons/fa6";
+import { FaChair } from "react-icons/fa6";
+
 
 function Listing() {
   const { listingId } = useParams();
@@ -61,12 +67,52 @@ function Listing() {
                   className=""
                   style={{
                     background: `url(${url}) center/cover no-repeat`,
-                    height: "300px", // Adjust height as needed
+                    height: "500px", // Adjust height as needed
                   }}
                 ></div>
               </SwiperSlide>
             ))}
           </Swiper>
+          <div className="flex flex-col gap-5 m-5 font-bold">
+  <h1 className="font-bold text-2xl">
+    {listing.name} <span className="text-xl">- $ {listing.regularPrice}/month</span>
+  </h1>
+  <div className="flex gap-2 items-center">
+    <FaLocationDot />
+    <p className="text-lg">{listing.address}</p>
+  </div>
+  <div className="flex gap-4">
+    <p className="bg-red-900 w-[200px] text-center text-white rounded-md py-1 px-3">
+      {listing.type === "rent" ? "For Rent" : "For Sale"}
+    </p>
+    <p className="bg-green-900 w-[200px] text-center text-white rounded-md py-1 px-3">
+      ${listing.regularPrice - listing.discountedPrice}
+    </p>
+  </div>
+  <p className="text-slate-800 font-semibold"><span className="font-semibold text-black">Discription - </span>
+  {listing.description}
+  </p>
+</div>
+<div className="flex flex-wrap justify-start gap-4 m-7 text-green-900 font-bold">
+  <div className="flex items-center gap-2">
+    <FaBed />
+    <p>{listing.bedrooms} {listing.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}</p>
+  </div>
+  <div className="flex items-center gap-2">
+    <FaBath />
+    <p>{listing.bathrooms} {listing.bathrooms === 1 ? 'Bathroom' : 'Bathrooms'}</p>
+  </div>
+  <div className="flex items-center gap-2">
+    <FaSquareParking />
+    <p>{listing.parking ? 'Parking Spot' : 'No Parking'}</p>
+  </div>
+  <div className="flex items-center gap-2">
+    <FaChair />
+    <p>{listing.furnished ? 'Furnished' : 'Unfurnished'}</p>
+  </div>
+</div>
+
+
         </>
       )}
     </div>
