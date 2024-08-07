@@ -9,13 +9,21 @@ import { FaBed } from "react-icons/fa";
 import { FaBath } from "react-icons/fa6";
 import { FaSquareParking } from "react-icons/fa6";
 import { FaChair } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+
+
+import Contacts from "../componenets/Contacts.jsx";
+
 
 
 function Listing() {
   const { listingId } = useParams();
+  const  [contact,setcontact]=useState(false)
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [listing, setListing] = useState(null);
+  const {currentUser}=useSelector((state)=>state.user)
+  console.log("cId: "+currentUser._id)
 
   console.log("Listing ID:", listingId);
 
@@ -49,7 +57,7 @@ function Listing() {
   }, [listing]);
 
   return (
-    <div>
+    <div className="m-20 items-center">
       {loading ? (
         <div className="text-center text-green-700 text-2xl m-7 font-bold">
           Loading...
@@ -111,6 +119,18 @@ function Listing() {
     <p>{listing.furnished ? 'Furnished' : 'Unfurnished'}</p>
   </div>
 </div>
+
+{currentUser&&listing.userRefs !== currentUser._id && !contact && (
+            <div className="flex justify-center m-7">
+              <button onClick={() => setcontact(true)} className="max-w-[300px] w-full rounded-lg hover:opacity-95 bg-slate-700 p-2 text-white uppercase">
+                Contact Landlord
+              </button>
+            </div>
+          )}
+
+          {/* Conditionally render the Contacts component if contact state is true */}
+          {contact && <Contacts listing={listing} />}
+
 
 
         </>
