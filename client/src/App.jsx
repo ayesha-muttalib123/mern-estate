@@ -10,6 +10,7 @@ import PrivateRoute from './componenets/privateRoute'
 import CreateListing from './pages/createListing'
 import UpdateListings from './pages/UpdateListings'
 import Listing from './pages/Listing'
+import Search from './pages/Search'
 
 
 
@@ -25,6 +26,8 @@ export default function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/about" element={<About />} />
+        <Route path="/Search" element={<Search/>} />
+
         
     <Route element={<PrivateRoute/>}>
       <Route path="/profile" element={<Profile />} />
