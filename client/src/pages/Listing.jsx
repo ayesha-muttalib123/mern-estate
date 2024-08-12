@@ -94,7 +94,7 @@ function Listing() {
       {listing.type === "rent" ? "For Rent" : "For Sale"}
     </p>
     <p className="bg-green-900 w-[200px] text-center text-white rounded-md py-1 px-3">
-      ${listing.regularPrice - listing.discountedPrice}
+      ${listing.regularPrice - listing.discountedPrice} OFF
     </p>
   </div>
   <p className="text-slate-800 font-semibold"><span className="font-semibold text-black">Discription - </span>
@@ -108,7 +108,7 @@ function Listing() {
   </div>
   <div className="flex items-center gap-2">
     <FaBath />
-    <p>{listing.bathrooms} {listing.bathrooms === 1 ? 'Bathroom' : 'Bathrooms'}</p>
+    <p>{listing.bathroom} {listing.bathroom===1 ? 'Bathroom' : 'Bathrooms'}</p>
   </div>
   <div className="flex items-center gap-2">
     <FaSquareParking />

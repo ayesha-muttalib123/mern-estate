@@ -146,6 +146,8 @@ exports.getListings = async (req, res) => {
 };
 exports.getAllListings = async (req, res) => {
   try {
+
+    
     // Define the limit for pagination, default to 9 if not specified in query
     const limit = parseInt(req.query.limit) || 9;
     // Calculate the starting index for pagination, default to 0 if not specified
