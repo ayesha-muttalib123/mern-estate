@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 function Contacts({ listing }) {
   const [landlord, setLandlord] = useState(null);
   console.log("landlord state:", landlord);
-  const [message, setmessag] = useState("");
+  const [message, setmessage] = useState();
   const onchange = async (e) => {
-    setmessag(e.target.value);
+    setmessage(e.target.value);
   };
 
   useEffect(() => {
@@ -39,15 +39,16 @@ function Contacts({ listing }) {
               for <span>{listing.name}</span>
             </p>
             <textarea
-              className="border rounded-lg"
+              className="border rounded-lg p-3"
               name="message"
               id="message"
               value={message}
               onchange={onchange}
-   placeholder="Entyer your message here"
-            >
+   placeholder="Enter your message here"
+   
+            />
 
-            </textarea>
+          
             <Link className=" text-center w-full rounded-lg hover:opacity-95 bg-slate-700 p-2 text-white uppercase"  to={`mailto:${landlord.email}?subject=Regarding${listing.name}&body=${message}`}>
             Send Message
             </Link>

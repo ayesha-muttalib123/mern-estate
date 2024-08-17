@@ -247,12 +247,12 @@ if (data.success===false){
           <div >
            
              <div key={listing._id} className="mt-4  flex justify-between border rounded-lg p-3 items-center">
-              <Link to={`/listings/${listing._id}`}>
+              <Link to={`/listing/${listing._id}`}>
                 <img src={listing.imageUrls[0]} alt="listing cover" height={'100px'} className=" h-16 w-16"/>
              
               </Link>
 
-              <Link to={`/listings/${listing._id}`} className="text-slate-700 font-semibold">
+              <Link to={`/listing/${listing._id}`} className="text-slate-700 font-semibold">
               <p>{listing.name}</p>
               
               </Link>

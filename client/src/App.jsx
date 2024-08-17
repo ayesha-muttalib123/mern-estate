@@ -33,7 +33,7 @@ export default function App() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/listing" element={<CreateListing/>} />
       <Route path='/update-listings/:listingId' element={<UpdateListings/>} /> 
-        <Route path='listing/:listingId'  element={<Listing/>}/> 
+        <Route path='/listing/:listingId'  element={<Listing/>}/> 
 
     </Route>
       </Routes>

@@ -8,7 +8,7 @@ function ListingItems({ listing }) {
   return (
     <div className="flex flexrow flex-wrap gap-4 justify-center">
       <div className="m-3 shadow-md   hover:shadow-lg w-full sm:w-[300px] rounded-lg bg-slate-100 overflow-hidden flex flex-col gap-4 border">
-        <Link to={`listing/${listing._id}`}>
+        <Link to={`/listing/${listing._id}`}>
           <img
             className="  transition-scale duration-300  rounded-lg h-[300px] sm:h-[220px]  hover:scale-105"
             src={listing.imageUrls[0]}
